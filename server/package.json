@@ -10,7 +10,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
-    "author": "Harsh Kumar",
+    "author": "Ayushi Dhete",
     "license": "ISC",
     "dependencies": {
         "cors": "^2.8.5",
@@ -18,5 +18,8 @@
         "express": "^4.18.2",
         "mongoose": "^8.0.1",
         "uuid": "^10.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
     }
 }
