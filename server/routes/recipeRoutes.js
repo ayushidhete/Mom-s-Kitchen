@@ -1,6 +1,6 @@
 import express from "express";
-import { createRecipeController, getRecipesController, getRecipeByAuthorController,getRecipeByIdController, searchRecipesByKeywordController, updateRecipeController, deleteRecipeController, } from "../controllers/recipeControllers.js";
-
+import { createRecipeController, getRecipesController, getRecipeByAuthorController,getRecipeByIdController, searchRecipesByKeywordController, searchRecipesByIngredientsController, updateRecipeController, deleteRecipeController, } from "../controllers/recipeControllers.js";
+//import { debugRecipesController } from "../controllers/recipeControllers.js";
 // Router to access Authorisation related routes
 const recipeRouter = express.Router();
 
@@ -42,19 +42,26 @@ recipeRouter.get("/get-recipe-by-id/:id", getRecipeByIdController);
 recipeRouter.get("/get-recipe-by-keyword/:keyword", searchRecipesByKeywordController);
 
 /**
- * @recipeRouter /api/v1/recipe/update-recipe
+ * @route   GET /api/v1/recipe/search-by-ingredients
+ * @desc    Search recipes using ingredients
+ */
+recipeRouter.get("/search-by-ingredients", searchRecipesByIngredientsController);
+
+/**
+ * @recipeRouter /api/v1/recipe/update-recipe/:id
  * @description Update recipe
  * @access public
  */
-recipeRouter.put("/update-recipe", updateRecipeController);
+recipeRouter.put("/update-recipe/:id", updateRecipeController);
 
 /**
- * @recipeRouter /api/v1/recipe/delete-recipe
+ * @recipeRouter /api/v1/recipe/delete-recipe/:id
  * @description Delete recipe
  * @access public
  */
-recipeRouter.put("/delete-recipe", deleteRecipeController);
+recipeRouter.delete("/delete-recipe/:id", deleteRecipeController);
 
+//recipeRouter.get("/debug-recipes", debugRecipesController);
 
 // Exporting Router
 export default recipeRouter;

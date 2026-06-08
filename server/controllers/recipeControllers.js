@@ -1,5 +1,14 @@
 import Recipe from "../models/recipeModel.js";
 
+const normalizeIngredients = (ingredients) => {
+  return ingredients
+    .join(",")                  // handle array
+    .toLowerCase()
+    .split(/[,،\n]+/)           // split by comma or space
+    .map(i => i.trim())
+    .filter(Boolean);
+};
+
 
 const createRecipeController = async (req, res) => {
     const { author, title, description,ingredients, image, steps } = req.body;
@@ -202,6 +211,37 @@ const updateRecipeController = async (req, res) => {
     }
 };
 
+export const searchRecipesByIngredientsController = async (req, res) => {
+  try {
+    const { ingredients } = req.query;
+
+    if (!ingredients) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide ingredients",
+      });
+    }
+
+    const ingredientArray = ingredients.split(",");
+
+    const recipes = await Recipe.find({
+      ingredients: { $in: ingredientArray },
+    });
+
+    res.status(200).json({
+      success: true,
+      recipes,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error in ingredient search",
+      error,
+    });
+  }
+};
+
 const deleteRecipeController = async (req, res) => {
     const idOfRecipe = req.body.id;
     const author = req.body.author;
@@ -233,5 +273,12 @@ const deleteRecipeController = async (req, res) => {
     }
 };
 
-
-export { createRecipeController, getRecipesController, getRecipeByAuthorController,getRecipeByIdController, searchRecipesByKeywordController, updateRecipeController, deleteRecipeController, };
+export { 
+  createRecipeController, 
+  getRecipesController, 
+  getRecipeByAuthorController,
+  getRecipeByIdController, 
+  searchRecipesByKeywordController, 
+  updateRecipeController, 
+  deleteRecipeController
+};
