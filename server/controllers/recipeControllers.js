@@ -273,6 +273,33 @@ const deleteRecipeController = async (req, res) => {
     }
 };
 
+export const bulkInsertRecipes = async (req, res) => {
+  try {
+    const recipes = req.body;
+
+     const updatedRecipes = recipes.map(r => ({
+      ...r,
+      author: "Ayushi",
+      image: "default-image-url"
+    }));
+
+    const inserted = await Recipe.insertMany(updatedRecipes);
+    
+    res.status(200).json({
+      success: true,
+      count: inserted.length,
+      message: "Bulk insert successful",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Bulk insert failed",
+      error: error.message,
+    });
+  }
+};
+
 export { 
   createRecipeController, 
   getRecipesController, 

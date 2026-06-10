@@ -1,5 +1,6 @@
 import express from "express";
 import { createRecipeController, getRecipesController, getRecipeByAuthorController,getRecipeByIdController, searchRecipesByKeywordController, searchRecipesByIngredientsController, updateRecipeController, deleteRecipeController, } from "../controllers/recipeControllers.js";
+import { bulkInsertRecipes } from "../controllers/recipeControllers.js";
 //import { debugRecipesController } from "../controllers/recipeControllers.js";
 // Router to access Authorisation related routes
 const recipeRouter = express.Router();
@@ -60,6 +61,8 @@ recipeRouter.put("/update-recipe/:id", updateRecipeController);
  * @access public
  */
 recipeRouter.delete("/delete-recipe/:id", deleteRecipeController);
+
+recipeRouter.post("/bulk-insert", bulkInsertRecipes);
 
 //recipeRouter.get("/debug-recipes", debugRecipesController);
 
